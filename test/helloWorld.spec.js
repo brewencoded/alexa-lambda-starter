@@ -4,7 +4,7 @@ const {
 const sinon = require('sinon');
 const { helloWorld } = require('../fn/helloWorld.js');
 
-describe('helloWorld', () => {
+describe('helloWorld.js', () => {
     it('should be a function', () => {
         expect(helloWorld).to.be.a('function');
     });
