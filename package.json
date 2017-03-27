@@ -1,0 +1,16 @@
+{
+  "name": "alexa",
+  "version": "1.0.0",
+  "description": "alexa",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Victor Rodriguez",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "mocha": "^3.2.0"
+  }
+}
