@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .; exit 0",
-    "test": "npm run lint && mocha; exit 0"
+    "test": "npm run lint && mocha --recursive --reporter spec test/**/*.spec.js; exit 0"
   },
   "author": "Victor Rodriguez",
   "license": "ISC",

@@ -5,19 +5,20 @@ const version = Joi.string().min(3).required();
 // a map of key value pairs to persist in the session
 const sessionAttributes = Joi.object().keys();
 // a response object that defines what to send to the user and wether to end the session
-const response = Joi.object().keys({
-    outputSpeech: Joi.object()
-        .keys({
-            type: Joi.string().allow('PlainText', 'SSML').required(),
-            text: Joi.string().when('type', {
-                is: 'PlainText',
-                then: Joi.required()
-            }),
-            ssml: Joi.string().when('type', {
-                is: 'SSML',
-                then: Joi.required()
-            })
+const outputSpeech = Joi.object()
+    .keys({
+        type: Joi.string().allow('PlainText', 'SSML').required(),
+        text: Joi.string().when('type', {
+            is: 'PlainText',
+            then: Joi.required()
         }),
+        ssml: Joi.string().when('type', {
+            is: 'SSML',
+            then: Joi.required()
+        })
+    });
+const response = Joi.object().keys({
+    outputSpeech,
     card: Joi.object()
         .keys({
             type: Joi.string().required().allow('Simple', 'Standard', 'LinkAccount'),
@@ -53,10 +54,7 @@ const response = Joi.object().keys({
 });
 
 module.exports = Joi.object().keys({
-    version, 
+    version,
     sessionAttributes,
     response
 });
-
-
-

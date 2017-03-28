@@ -2,9 +2,9 @@ const {
     expect
 } = require('chai');
 const sinon = require('sinon');
-const { helloWorld } = require('../fn/helloWorld.js');
+const { helloWorld } = require('../../fn/helloWorld.js');
 
-describe('helloWorld.js', () => {
+describe('helloWorld()', () => {
     it('should be a function', () => {
         expect(helloWorld).to.be.a('function');
     });
