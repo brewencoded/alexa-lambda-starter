@@ -4,12 +4,14 @@
   "description": "alexa",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "lint": "eslint .; exit 0",
+    "test": "npm run lint && mocha"
   },
   "author": "Victor Rodriguez",
   "license": "ISC",
   "devDependencies": {
     "chai": "^3.5.0",
+    "eslint": "^3.18.0",
     "gulp": "^3.9.1",
     "mocha": "^3.2.0",
     "sinon": "^2.1.0"
