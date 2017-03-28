@@ -31,6 +31,23 @@ const response = Joi.object().keys({
             }).when('type', {
                 is: 'Standard',
                 then: Joi.forbidden()
+            }),
+            text: Joi.string().when('type', {
+                is: 'LinkAccount',
+                then: Joi.forbidden()
+            }).when('type', {
+                is: 'Simple',
+                then: Joi.forbidden()
+            }),
+            image: Joi.object().keys({
+                smallImageUrl: Joi.string(),
+                largeImageUrl: Joi.string()
+            }).when('type', {
+                is: 'Simple',
+                then: Joi.forbidden()
+            }).when('type', {
+                is: 'LinkAccount',
+                then: Joi.forbidden()
             })
         })
 });
