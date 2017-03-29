@@ -1,7 +1,7 @@
 const {
     INTENT_REQUEST,
     HELLO_WORLD
-} = require('./constants.js');
+} = require('./constants/IntentConstants');
 
 const {
     helloWorld
