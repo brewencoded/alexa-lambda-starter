@@ -51,7 +51,7 @@ module.exports = () => {
         (err) => expect(err.name).to.equal('ValidationError'));
 
     });
-    it('should not accept text when type is ssml', () => {
+    it('should not accept ssml when type is plain text', () => {
         Joi.validate({
             version: '1.0',
             response: {
