@@ -5,6 +5,7 @@ const Joi = require('joi');
 const Request = require('../../schema/ResponseSchema');
 const outputSpeech = require('./outputSpeech');
 const card = require('./card');
+const reprompt = require('./reprompt');
 
 describe('ResponseSchema', () => {
     describe('version', () => {
@@ -44,5 +45,6 @@ describe('ResponseSchema', () => {
     describe('response', () => {
         describe('outputSpeech', outputSpeech);
         describe('card', card);
+        describe('reprompt', reprompt);
     });
 });
