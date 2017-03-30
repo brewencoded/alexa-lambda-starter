@@ -6,6 +6,7 @@ const Request = require('../../schema/ResponseSchema');
 const outputSpeech = require('./outputSpeech');
 const card = require('./card');
 const reprompt = require('./reprompt');
+const directives = require('./directives');
 
 describe('ResponseSchema', () => {
     describe('version', () => {
@@ -46,5 +47,6 @@ describe('ResponseSchema', () => {
         describe('outputSpeech', outputSpeech);
         describe('card', card);
         describe('reprompt', reprompt);
+        describe('directives', directives);
     });
 });
