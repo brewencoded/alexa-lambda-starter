@@ -34,6 +34,7 @@ Make sure to modify the [publish.sh](https://github.com/brewencoded/alexa-lambda
 - [X] Mocha and Chai
 - [X] Sinon
 - [X] Eslint
+- [ ] `--fix` to automatically fix simple issues
 - [X] Joi validation
 - [X] Testing scripts
 - [X] Response schema validation
@@ -44,3 +45,5 @@ Make sure to modify the [publish.sh](https://github.com/brewencoded/alexa-lambda
 - [ ] Code coverage
 - [ ] Build scripts
 - [ ] Deploy scripts
+- [ ] Add Continuous Integration
+- [ ] Docker Support
