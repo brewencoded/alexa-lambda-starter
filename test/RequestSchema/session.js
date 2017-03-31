@@ -38,6 +38,16 @@ module.exports = () => {
         const request = mockRequest(session);
         Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"new" must be a boolean'));
     });
+    it('should accept a string as a value for sessionId', () => {
+        const session = Object.assign({}, validSession, { sessionId: 'testSessionId' });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err).to.be.null);
+    });
+    it('should not accept non-string values in sessionId', () => {
+        const session = Object.assign({}, validSession, { sessionId: 1 });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"sessionId" must be a string'));
+    });
     it('should accept an object in application', () => {
         const session = Object.assign({}, validSession);
         const request = mockRequest(session);
