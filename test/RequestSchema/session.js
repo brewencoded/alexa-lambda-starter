@@ -64,7 +64,24 @@ module.exports = () => {
         const request = mockRequest(session);
         Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"application" is required'));
     });
-
+    it('should not accept an object with keys other than applicationId', () => {
+        const session = Object.assign({}, validSession, {
+            application: {
+                applicationId: 'testId',
+                test: 'testForbidden'
+            }
+        });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"test" is not allowed'));
+    });
+    it('should not accept an object without applicationId property', () => {
+        const session = Object.assign({}, validSession, {
+            application: {
+            }
+        });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"applicationId" is required'));
+    });
     it('should accept an object in attributes', () => {
         const session = Object.assign({}, validSession);
         const request = mockRequest(session);
