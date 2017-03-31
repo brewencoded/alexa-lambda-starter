@@ -64,7 +64,7 @@ module.exports = () => {
         const request = mockRequest(session);
         Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"application" is required'));
     });
-    it('should not accept an object with keys other than applicationId', () => {
+    it('should not accept an object with keys other than applicationId in application', () => {
         const session = Object.assign({}, validSession, {
             application: {
                 applicationId: 'testId',
@@ -74,7 +74,7 @@ module.exports = () => {
         const request = mockRequest(session);
         Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"test" is not allowed'));
     });
-    it('should not accept an object without applicationId property', () => {
+    it('should not accept an object without applicationId property in application', () => {
         const session = Object.assign({}, validSession, {
             application: {
             }
@@ -97,5 +97,46 @@ module.exports = () => {
         delete session.attributes;
         const request = mockRequest(session);
         Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"attributes" is required'));
+    });
+
+    it('should not accept a non-object for user', () => {
+        const session = Object.assign({}, validSession, { user: 1 });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"user" must be an object'));
+    });
+    it('should enforce that user is required', () => {
+        const session = Object.assign({}, validSession);
+        delete session.user;
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"user" is required'));
+    });
+    it('should not accept an object with keys other than userId and accessToken in user', () => {
+        const session = Object.assign({}, validSession, {
+            user: {
+                test: 'testForbidden',
+                userId: 'testUserId',
+                accessToken: 'testAccessToken'
+            }
+        });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"test" is not allowed'));
+    });
+    it('should not accept an object without userId property in user', () => {
+        const session = Object.assign({}, validSession, {
+            user: {
+                accessToken: 'testAccessToken'
+            }
+        });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"userId" is required'));
+    });
+    it('should accept an object without accessToken property in user', () => {
+        const session = Object.assign({}, validSession, {
+            user: {
+                userId: 'testUserId',
+            }
+        });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err).to.be.null);
     });
 };
