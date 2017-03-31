@@ -2,68 +2,52 @@ const {
     expect
 } = require('chai');
 const Joi = require('joi');
-const Request = require('../../schema/ResponseSchema');
+const ResponseSchema = require('../../schema/ResponseSchema');
+
+const validOutputSpeech = {
+    type: 'PlainText',
+    text: 'test'
+};
+
+function mockResponse(outputSpeech = validOutputSpeech) {
+    return {
+        version: '1.0',
+        response: {
+            reprompt: {
+                outputSpeech
+            }
+        }
+    };
+}
 
 module.exports = () => {
     it('should accept text when type is plaintext', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                reprompt: {
-                    outputSpeech: {
-                        type: 'PlainText',
-                        text: 'test'
-                    }
-                }
-            }
-        },
-        Request,
-        (err) => expect(err).to.be.null);
+        const response = mockResponse();
+        Joi.validate(response, ResponseSchema, (err) => expect(err).to.be.null);
     });
     it('should accept ssml  when type is ssml', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                reprompt: {
-                    outputSpeech: {
-                        type: 'SSML',
-                        ssml: '<>test<>'
-                    }
-                }
-            }
-        },
-        Request,
-        (err) => expect(err).to.be.null);
+        const outputSpeech = Object.assign({}, validOutputSpeech, {
+            type: 'SSML',
+            ssml: '<>test<>'
+        });
+        delete outputSpeech.text;
+        const response = mockResponse(outputSpeech);
+        Joi.validate(response, ResponseSchema, (err) => expect(err).to.be.null);
     });
     it('should not accept text when type is ssml', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                reprompt: {
-                    outputSpeech: {
-                        type: 'SSML',
-                        text: 'test'
-                    }
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
-
+        const outputSpeech = Object.assign({}, validOutputSpeech, {
+            type: 'SSML',
+            text: 'test'
+        });
+        const response = mockResponse(outputSpeech);
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should not accept ssml when type is plain text', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                reprompt: {
-                    outputSpeech: {
-                        type: 'PlainText',
-                        ssml: '<>test<>'
-                    }
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const outputSpeech = Object.assign({}, validOutputSpeech, {
+            type: 'PlainText',
+            ssml: '<>test<>'
+        });
+        const response = mockResponse(outputSpeech);
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
 };
