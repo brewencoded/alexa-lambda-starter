@@ -3,6 +3,7 @@ const {
 } = require('chai');
 const Joi = require('joi');
 const Request = require('../../schema/RequestSchema');
+const session = require('./session');
 
 describe('RequestSchema', () => {
     describe('version', () => {
@@ -21,4 +22,5 @@ describe('RequestSchema', () => {
             (err) => expect(err.name).to.equal('ValidationError'));
         });
     });
+    describe('session', session);
 });

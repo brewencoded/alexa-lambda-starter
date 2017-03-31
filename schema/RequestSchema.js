@@ -25,4 +25,4 @@ const session = Joi.object().keys({
 module.exports = Joi.object().keys({
     version,
     session
-});
+}).options({ convert: false });
