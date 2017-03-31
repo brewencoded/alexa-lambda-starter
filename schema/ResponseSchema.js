@@ -111,4 +111,4 @@ module.exports = Joi.object().keys({
     version,
     sessionAttributes,
     response
-});
+}).options({ convert: false });
