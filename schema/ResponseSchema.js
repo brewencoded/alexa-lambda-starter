@@ -19,12 +19,14 @@ const outputSpeech = Joi.object()
         text: Joi.string()
             .when('type', {
                 is: 'PlainText',
-                then: Joi.required()
+                then: Joi.required(),
+                otherwise: Joi.forbidden()
             }),
         ssml: Joi.string()
             .when('type', {
                 is: 'SSML',
-                then: Joi.required()
+                then: Joi.required(),
+                otherwise: Joi.forbidden()
             })
     });
 // card to display in alexa app
@@ -34,7 +36,8 @@ const card = Joi.object()
         title: Joi.string()
             .when('type', {
                 is: 'LinkAccount',
-                then: Joi.forbidden()
+                then: Joi.forbidden(),
+                otherwise: Joi.optional()
             }),
         content: Joi.string()
             .when('type', {
