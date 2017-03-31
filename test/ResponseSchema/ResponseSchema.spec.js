@@ -2,7 +2,7 @@ const {
     expect
 } = require('chai');
 const Joi = require('joi');
-const Request = require('../../schema/ResponseSchema');
+const Response = require('../../schema/ResponseSchema');
 const outputSpeech = require('./outputSpeech');
 const card = require('./card');
 const reprompt = require('./reprompt');
@@ -14,16 +14,18 @@ describe('ResponseSchema', () => {
             Joi.validate({
                 version: '1.0'
             },
-            Request,
+            Response,
             (err) => expect(err).to.be.null);
         });
         it('should return ValidationError for an invalid version', () => {
             Joi.validate({
                 version: 1.0
             },
-            Request,
+            Response,
             (err) => expect(err.name).to.equal('ValidationError'));
         });
+    });
+    describe('sessionAttributes', () => {
         it('should accept an object in sessionAttributes', () => {
             Joi.validate({
                 version: '1.0',
@@ -31,7 +33,7 @@ describe('ResponseSchema', () => {
                     'testKey': 'testValue'
                 }
             },
-            Request,
+            Response,
             (err) => expect(err).to.be.null);
         });
         it('should return a ValidationError for invalid sessionAttributes', () => {
@@ -39,7 +41,7 @@ describe('ResponseSchema', () => {
                 version: '1.0',
                 sessionAttributes: 1
             },
-            Request,
+            Response,
             (err) => expect(err.name).to.be.equal('ValidationError'));
         });
     });
