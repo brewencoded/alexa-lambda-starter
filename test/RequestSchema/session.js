@@ -64,4 +64,21 @@ module.exports = () => {
         const request = mockRequest(session);
         Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"application" is required'));
     });
+
+    it('should accept an object in attributes', () => {
+        const session = Object.assign({}, validSession);
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err).to.be.null);
+    });
+    it('should not accept a non-object for attributes', () => {
+        const session = Object.assign({}, validSession, { attributes: 1 });
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"attributes" must be an object'));
+    });
+    it('should enforce that attributes is required', () => {
+        const session = Object.assign({}, validSession);
+        delete session.attributes;
+        const request = mockRequest(session);
+        Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"attributes" is required'));
+    });
 };
