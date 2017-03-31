@@ -1,4 +1,4 @@
-# Alexa + Amazon AWS Lambda Starter Kit
+# Alexa + Amazon AWS Lambda Starter Kit (Node.js 6.x.x)
 ------
 This will offer everything you need to get started on Amazon's ASK with an AWS Lambda backend.
 
@@ -13,16 +13,16 @@ This will offer everything you need to get started on Amazon's ASK with an AWS L
  - Sinon - for better functional testing
  - Joi - self documenting schema to make sure your requests and responses are valid
 
-### Getting Started:
+### Getting Started: (This will probably change)
  1. `git clone https://github.com/brewencoded/alexa-lambda-starter.git`
  2. `cd alexa-lambda-starter`
  3. `npm install`
 
 **To test**: `npm run test`
 
-**To build**: `npm run build`
+**To build**: `npm run build` *WIP*
 
-**To deploy**: `npm run publish`
+**To deploy**: `npm run publish` *WIP*
 
 If you have not set up the AWS CLI, [click here](https://developer.amazon.com/blogs/post/Tx1UE9W1NQ0GYII/publishing-your-skill-code-to-lambda-via-the-command-line-interface) for detailed instructions.
 
@@ -34,6 +34,7 @@ Make sure to modify the [publish.sh](https://github.com/brewencoded/alexa-lambda
 - [X] Mocha and Chai
 - [X] Sinon
 - [X] Eslint
+- [ ] `--fix` to automatically fix simple issues
 - [X] Joi validation
 - [X] Testing scripts
 - [X] Response schema validation
@@ -44,3 +45,5 @@ Make sure to modify the [publish.sh](https://github.com/brewencoded/alexa-lambda
 - [ ] Code coverage
 - [ ] Build scripts
 - [ ] Deploy scripts
+- [ ] Add Continuous Integration
+- [ ] Docker Support
