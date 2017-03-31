@@ -32,7 +32,7 @@ module.exports = () => {
         });
         validate(session, (err) => {
             expect(err).to.be.null;
-        })
+        });
     });
     it('should not accept non-boolean values in new', () => {
         const session = Session.create({
@@ -40,7 +40,7 @@ module.exports = () => {
         });
         validate(session, (err) => {
             expect(err.details[0].message).to.equal('"new" must be a boolean');
-        })
+        });
     });
     it('should accept an object in application', () => {
         const session = Session.create();
