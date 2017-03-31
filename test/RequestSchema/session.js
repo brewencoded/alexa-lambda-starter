@@ -6,7 +6,7 @@ const Request = require('../../schema/RequestSchema');
 
 // Session object for use in testing
 const Session = {
-    create(override) {
+    create(override = {}) {
         const instance = Object.create(this);
         // set here to prevent them from being added to prototype and invisible on log/dir
         instance.new = override.new || true,
@@ -30,26 +30,46 @@ module.exports = () => {
         const session = Session.create({
             new: false
         });
-        Joi.validate({
-            version:'1.0',
-            session
-        },
-        Request,
-        (err) => {
+        validate(session, (err) => {
             expect(err).to.be.null;
-        });
+        })
     });
     it('should not accept non-boolean values in new', () => {
         const session = Session.create({
             new: 'true'
         });
-        Joi.validate({
-            version:'1.0',
-            session
-        },
-        Request,
-        (err) => {
+        validate(session, (err) => {
             expect(err.details[0].message).to.equal('"new" must be a boolean');
+        })
+    });
+    it('should accept an object in application', () => {
+        const session = Session.create();
+        validate(session, (err) => {
+            expect(err).to.be.null;
+        });
+    });
+    it('should not accept a non-object for application', () => {
+        const session = Session.create({
+            application: 1
+        });
+        validate(session, (err) => {
+            expect(err.details[0].message).to.equal('"application" must be an object');
+        });
+    });
+    it('should enforce that application is required', () => {
+        const session = Session.create();
+        delete session.application;
+        validate(session, (err) => {
+            expect(err.details[0].message).to.equal('"application" is required');
         });
     });
 };
+
+function validate(session, callback) {
+    Joi.validate({
+        version: '1.0',
+        session
+    },
+    Request,
+    callback);
+}
