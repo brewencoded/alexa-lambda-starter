@@ -8,7 +8,7 @@ const {
 } = require('../../constants/SchemaConstants');
 const RequestSchema = require('../../schema/RequestSchema');
 
-// Session object for use in testing
+// Context object for use in testing
 const validContext = {
     System: {
         application: {
