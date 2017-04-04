@@ -8,5 +8,16 @@ module.exports = {
         PLAY: 'AudioPlayer.Play',
         STOP: 'AudioPlayer.Stop',
         CLEAR_QUEUE: 'AudioPlayer.ClearQueue'
-    }
+    },
+    PLAYER_ACTIVITY: {
+        IDLE: 'IDLE',
+        PAUSED: 'PAUSED',
+        PLAYING: 'PLAYING',
+        BUFFER_UNDERRUN: 'BUFFER_UNDERRUN',
+        FINISHED: 'FINISHED',
+        STOPPED: 'STOPPED'
+    },
+    INTENT_REQUEST: 'INTENT_REQUEST',
+    LAUNCH_REQUEST: 'LAUNCH_REQUEST',
+    SESSION_ENDED_REQUEST: 'SESSION_ENDED_REQUEST'
 };

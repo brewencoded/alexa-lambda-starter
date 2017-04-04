@@ -2,189 +2,116 @@ const {
     expect
 } = require('chai');
 const Joi = require('joi');
-const Request = require('../../schema/ResponseSchema');
+const ResponseSchema = require('../../schema/ResponseSchema');
+
+function mockResponse(card = { type: 'Simple' }) {
+    return {
+        version: '1.0',
+        response: {
+            card
+        }
+    };
+}
 
 module.exports = () => {
     it('should accept a string in type property', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Simple'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err).to.be.null);
+        const response = mockResponse();
+        Joi.validate(response, ResponseSchema, (err) => expect(err).to.be.null);
     });
     it('should not accept any other type in type property', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 1
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const response = mockResponse({
+            type: 1
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should accept title if type is not LinkAccount', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Simple',
-                    title: 'TestTitle'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err).to.be.null);
+        const response = mockResponse({
+            type: 'Simple',
+            title: 'testTitle'
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err).to.be.null);
     });
     it('should accept content if type is not LinkAccount or Standard', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Simple',
-                    content: 'test'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err).to.be.null);
+        const response = mockResponse({
+            type: 'Simple',
+            content: 'testContent'
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err).to.be.null);
     });
     it('should not accept content if type is LinkAccount', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'LinkAccount',
-                    content: 'test'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const response = mockResponse({
+            type: 'LinkAccount',
+            content: 'test'
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should not accept content if type is Standard', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Standard',
-                    content: 'test'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const response = mockResponse({
+            type: 'Standard',
+            content: 'test'
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should accept a string as text value when type is Standard', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Standard',
-                    text: 'test'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err).to.be.null);
+        const response = mockResponse({
+            type: 'Standard',
+            text: 'test'
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err).to.be.null);
     });
     it('should not accept non-string values in text when type is Standard', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Standard',
-                    text: 1
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const response = mockResponse({
+            type: 'Standard',
+            text: 1
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should not accept a text property when type is LinkAccount', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'LinkAccount',
-                    text: 'test'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const response = mockResponse({
+            type: 'LinkAccount',
+            text: 'test'
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should not accept a text property when type is Simple', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Simple',
-                    text: 'test'
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const response = mockResponse({
+            type: 'Simple',
+            text: 'test'
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should accept an object as image value when type is Standard', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Standard',
-                    image: {
-                        smallImageUrl:'test'
-                    }
-                }
+        const response = mockResponse({
+            type: 'Standard',
+            image: {
+                smallImageUrl:'test'
             }
-        },
-        Request,
-        (err) => expect(err).to.be.null);
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err).to.be.null);
     });
     it('should not accept a non object as image value when type is Standard', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Standard',
-                    image: 1
-                }
-            }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        const response = mockResponse({
+            type: 'Standard',
+            image: 1
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should not accept a image when type is LinkAccount', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'LinkAccount',
-                    image: 1
-                }
+        const response = mockResponse({
+            type: 'LinkAccount',
+            image: {
+                smallImageUrl:'test'
             }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
     it('should not accept a image when type is Simple', () => {
-        Joi.validate({
-            version: '1.0',
-            response: {
-                card: {
-                    type: 'Simple',
-                    image: 1
-                }
+        const response = mockResponse({
+            type: 'Simple',
+            image: {
+                smallImageUrl:'test'
             }
-        },
-        Request,
-        (err) => expect(err.name).to.equal('ValidationError'));
+        });
+        Joi.validate(response, ResponseSchema, (err) => expect(err.name).to.equal('ValidationError'));
     });
 };
