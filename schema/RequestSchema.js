@@ -50,7 +50,7 @@ const context = Joi.object().keys({
 });
 // A request object that provides the details of the user’s request.
 const request = Joi.object().keys({
-    type: Joi.string().allow(INTENT_REQUEST, SESSION_ENDED_REQUEST, LAUNCH_REQUEST),
+    type: Joi.string().valid(INTENT_REQUEST, SESSION_ENDED_REQUEST, LAUNCH_REQUEST).required(),
     requestId: Joi.string(),
     timestamp: Joi.string(),
     locale: Joi.string(),
