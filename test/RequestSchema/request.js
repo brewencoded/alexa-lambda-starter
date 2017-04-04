@@ -150,6 +150,50 @@ module.exports = () => {
         });
     });
     describe('Session ended request', () => {
-        
+        it('should accept a type of ' + SESSION_ENDED_REQUEST, () => {
+            const sessionEnded = Object.assign({}, validSessionEndedRequest);
+            const request = mockRequest(sessionEnded);
+            Joi.validate(request, RequestSchema, (err) => expect(err).to.be.null);
+        });
+        it('should require reason if type is ' + SESSION_ENDED_REQUEST, () => {
+            const sessionEnded = Object.assign({}, validSessionEndedRequest);
+            delete sessionEnded.reason;
+            const request = mockRequest(sessionEnded);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"reason" is required'));
+        });
+        it('should require error to be an object', () => {
+            const sessionEnded = Object.assign({}, validSessionEndedRequest, {
+                error: 1
+            });
+            const request = mockRequest(sessionEnded);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"error" must be an object'));
+        });
+        it('should require error.type to be a string', () => {
+            const sessionEnded = Object.assign({}, validSessionEndedRequest, {
+                error: {
+                    type: 1
+                }
+            });
+            const request = mockRequest(sessionEnded);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"type" must be a string'));
+        });
+        it('should require error.type if error is defined', () => {
+            const sessionEnded = Object.assign({}, validSessionEndedRequest, {
+                error: {
+                }
+            });
+            const request = mockRequest(sessionEnded);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"type" is required'));
+        });
+        it('should require error.message to be a string', () => {
+            const sessionEnded = Object.assign({}, validSessionEndedRequest, {
+                error: {
+                    type: 'testType',
+                    message: 1
+                }
+            });
+            const request = mockRequest(sessionEnded);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"message" must be a string'));
+        });
     });
 };
