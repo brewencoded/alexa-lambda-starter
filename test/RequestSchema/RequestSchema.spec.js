@@ -5,7 +5,7 @@ const Joi = require('joi');
 const Request = require('../../schema/RequestSchema');
 const session = require('./session');
 const context = require('./context');
-
+const request = require('./request');
 describe('RequestSchema', () => {
     describe('version', () => {
         it('should not have errors with a valid version', () => {
@@ -25,4 +25,5 @@ describe('RequestSchema', () => {
     });
     describe('session', session);
     describe('context', context);
+    describe('request', request);
 });
