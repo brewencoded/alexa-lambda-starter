@@ -98,12 +98,58 @@ module.exports = () => {
         Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"locale" must be a string'));
     });
     describe('Launch request', () => {
-
+        it('should accept a type of LaunchRequest', () => {
+            const launch = Object.assign({}, validLaunchRequest);
+            const request = mockRequest(launch);
+            Joi.validate(request, RequestSchema, (err) => expect(err).to.be.null);
+        });
     });
     describe('Intent request', () => {
-
+        it('should accept a type of IntentRequest', () => {
+            const intent= Object.assign({}, validIntentRequest);
+            const request = mockRequest(intent);
+            Joi.validate(request, RequestSchema, (err) => expect(err).to.be.null);
+        });
+        it('should require intent when type is IntentRequest', () => {
+            const intent= Object.assign({}, validIntentRequest);
+            delete intent.intent;
+            const request = mockRequest(intent);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"intent" is required'));
+        });
+        it('should require intent to be an object', () => {
+            const intent = Object.assign({}, validIntentRequest, {
+                intent: 1
+            });
+            const request = mockRequest(intent);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"intent" must be an object'));
+        });
+        it('should require intent.name to be a string', () => {
+            const intent = Object.assign({}, validIntentRequest, {
+                intent: {
+                    name: 1
+                }
+            });
+            const request = mockRequest(intent);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"name" must be a string'));
+        });
+        it('should require intent.name', () => {
+            const intent = Object.assign({}, validIntentRequest);
+            delete intent.intent.name;
+            const request = mockRequest(intent);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"name" is required'));
+        });
+        it('should require intent.slots to be an object', () => {
+            const intent = Object.assign({}, validIntentRequest, {
+                intent: {
+                    name: 'testName',
+                    slots: 1
+                }
+            });
+            const request = mockRequest(intent);
+            Joi.validate(request, RequestSchema, (err) => expect(err.details[0].message).to.equal('"slots" must be an object'));
+        });
     });
     describe('Session ended request', () => {
-
+        
     });
 };
